@@ -1,0 +1,17 @@
+#lang scheme
+
+;this is the Work product of Roi Argaman
+;
+;Q1.a : My_append
+
+(define my_append
+  (lambda (lst1 lst2)
+     (if (eqv? (length lst1) (length lst2))
+         (if (and(empty? lst1) (empty? lst2))
+             '()
+             (cons (car lst1) (cons (car lst2) (my_append (cdr lst1) (cdr lst2)))))
+             (display "Not a valid input"))))
+
+;Q1.b : My_append no recursion 
+
+
