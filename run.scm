@@ -1,71 +1,4 @@
-#lang scheme
-
-#|
-this is the Work product of Roi Argaman
-Q1.a : My_append 
-|#
-(define my_append
-  (lambda (lst1 lst2)
-    (if (not (empty? lst1))
-        (cons (car lst1) (my_append (cdr lst1) lst2))
-        (if (empty? lst2)
-            '()
-            (cons (car lst2) (my_append  lst1 (cdr lst2)))
-            ))))       
-        
- 
-;Q1.b : My_append no recursion compines
-
-(define my_append_fr
-  (lambda (lst1 lst2)
-    (foldr cons lst2 lst1)))    
-
-
-#|
-Q2 : filter 
-|#
-
-(define filterl
-  (lambda (pred lst)
-    (foldr (lambda (i result)
-             (if (pred i)
-                 (cons i result)
-                 result))
-          '() lst
-             )))
-
-
-
-
-#|
-Q3 : set-dif 
-|#
-
-(define contains
-   (lambda (lst x)
-     (if (empty? lst)
-         #f
-         (if (equal? (car lst) x)
-             #t
-             (contains (cdr lst) x)
-             ))))
-
-(define sub
-   (lambda (lst1 lst2)
-      (foldr (lambda (i result)
-             (if (not(contains lst1 i))
-                 (cons i result)
-                 result))
-      '() lst2)))
- 
-
-(define set-dif
-  (lambda (lst1 lst2)    
-    (append (sub lst1 lst2) (sub lst2 lst1))))
-    
-
-
-
+#lang racket
 
 display "___________TESTS___________"
 
@@ -174,11 +107,3 @@ display "___________TESTS___________"
   (sleep 0.5)
 
 (display "\n---END OF TEST Q3---\n\n")
-
-
-                
-
-
-
-
-

@@ -1,73 +1,7 @@
-#lang scheme
+#lang racket
 
 #|
-this is the Work product of Roi Argaman
-Q1.a : My_append 
-|#
-(define my_append
-  (lambda (lst1 lst2)
-    (if (not (empty? lst1))
-        (cons (car lst1) (my_append (cdr lst1) lst2))
-        (if (empty? lst2)
-            '()
-            (cons (car lst2) (my_append  lst1 (cdr lst2)))
-            ))))       
-        
- 
-;Q1.b : My_append no recursion compines
-
-(define my_append_fr
-  (lambda (lst1 lst2)
-    (foldr cons lst2 lst1)))    
-
-
-#|
-Q2 : filter 
-|#
-
-(define filterl
-  (lambda (pred lst)
-    (foldr (lambda (i result)
-             (if (pred i)
-                 (cons i result)
-                 result))
-          '() lst
-             )))
-
-
-
-
-#|
-Q3 : set-dif 
-|#
-
-(define contains
-   (lambda (lst x)
-     (if (empty? lst)
-         #f
-         (if (equal? (car lst) x)
-             #t
-             (contains (cdr lst) x)
-             ))))
-
-(define sub
-   (lambda (lst1 lst2)
-      (foldr (lambda (i result)
-             (if (not(contains lst1 i))
-                 (cons i result)
-                 result))
-      '() lst2)))
- 
-
-(define set-dif
-  (lambda (lst1 lst2)    
-    (append (sub lst1 lst2) (sub lst2 lst1))))
-    
-
-
-
-
-display "___________TESTS___________"
+___________TESTS___________
 
 
 (display "---TEST Q1---\n")
@@ -93,7 +27,7 @@ display "___________TESTS___________"
   (if (equal? l23 (my_append l2 l3))
       (display "Q1.1 test 5 pass\n")
       (display "Q1.1 test 5 FAILED\n"))
-(display "-------------------------------------------------------------------------------- \n")
+; --------------------------------------------------------------------------------    
   (if (equal? l (my_append_fr l l))
       (display "Q1.2 test 1 pass\n")
       (display "Q1.2 test 1 FAILED\n"))
@@ -149,8 +83,8 @@ display "___________TESTS___________"
 ;--------------------------------------------------------------------------------
 
 (display "---TEST Q3---\n")
-  (let ([l'()] [l1 '(a b c d)] [l2 '(x b d w)] [l3 '(x X)]
-               [l32 '(b d w X)] [l3c '()])
+  (let ([l'()] [l1 '(a b c d)] [l2 '(x b d w)] [l3 '()]
+               [l1c '()] [l3c '()])
     
     (display (set-dif l l))
     (display "\n")
@@ -163,22 +97,18 @@ display "___________TESTS___________"
       (display "Q3 test 2 pass\n")
       (display "Q3 test 2 FAILED\n"))
    (sleep 0.5) 
-  (if (equal? l32 (set-dif l3 l2))
+#|  (if (equal? l3c (filterl even? l3c))
       (display "Q3 test 3 pass\n")
       (display "Q3 test 3 FAILED\n"))
    (sleep 0.5)
-  (if (equal? (set-dif l2 l3) (set-dif l3 l2))
+  (if (equal? '(234) (filterl even? l2))
       (display "Q3 test 4 pass\n")
-      (display "Q3 test 4 FAILED\n"))  
+      (display "Q3 test 4 FAILED\n"))  |#
     )
-  (sleep 0.5)
 
 (display "\n---END OF TEST Q3---\n\n")
 
 
                 
 
-
-
-
-
+|#
