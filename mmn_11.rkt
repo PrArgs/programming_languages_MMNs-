@@ -3,6 +3,8 @@
 #|
 this is the Work product of Roi Argaman
 Q1.a : My_append 
+
+append 2 list into 1 with recursion
 |#
 (define my_append
   (lambda (lst1 lst2)
@@ -14,15 +16,17 @@ Q1.a : My_append
             ))))       
         
  
-;Q1.b : My_append no recursion compines
+;Q1.b : My_append 
+; append 2 list into 1 without recursion
 
-(define my_append_fr
-  (lambda (lst1 lst2)
-    (foldr cons lst2 lst1)))    
+(define (my_append_fr lst1 lst2)
+    (foldr cons lst2 lst1))    
 
 
 #|
-Q2 : filter 
+Q2 : filter
+ returns the items in the given list that are 
+ compatible with the given predicate
 |#
 
 (define filterl
@@ -41,8 +45,9 @@ Q2 : filter
 Q3 : set-dif 
 |#
 
+;checks if an item is in given list 
 (define contains
-   (lambda (lst x)
+   (λ (lst x)
      (if (empty? lst)
          #f
          (if (equal? (car lst) x)
@@ -50,19 +55,40 @@ Q3 : set-dif
              (contains (cdr lst) x)
              ))))
 
+; subtracting list2 from list1
 (define sub
-   (lambda (lst1 lst2)
+   (λ (lst1 lst2)
       (foldr (lambda (i result)
              (if (not(contains lst1 i))
                  (cons i result)
                  result))
       '() lst2)))
  
-
+;returns the symmetric difference by using the Propertie 
+;is equivalent to the union of both relative complements A/\B = (A\B)U(B\A)
 (define set-dif
-  (lambda (lst1 lst2)    
+  (λ (lst1 lst2)    
     (append (sub lst1 lst2) (sub lst2 lst1))))
-    
+
+
+#|
+Q4 : complete foo
+|#
+(define foo
+  (lambda (ls s)
+    (cond
+      [(null? ls) `(() . ,s)]
+      [(pair? (car ls))
+       (let ((p (foo (car ls) s)))
+         (let ((p1 (foo (cdr ls) (cdr p))))
+           ;change here
+           `(,(cons (car p) (car p1)) . ,(cdr p1))))]
+      [(or (null? (car ls)) (odd? (car ls)))
+       (let ((p (foo (cdr ls) s)))
+         ;change here
+         `(,(cons (car ls) (car p)) . ,(cdr p)))]
+      [else (let ((p (foo (cdr ls) s)))
+              `(,(car p) . ,(add1 (cdr p))))])))
 
 
 
@@ -71,6 +97,7 @@ display "___________TESTS___________"
 
 
 (display "---TEST Q1---\n")
+(sleep 0.5)
   (let ([l'()] [l1 '(a b c)] [l2 '(x y z)] [l3 '(ggs ppl 111)] 
                [l12 '(a b c x y z)] 
                [l23 '(x y z ggs ppl 111)])
@@ -93,7 +120,9 @@ display "___________TESTS___________"
   (if (equal? l23 (my_append l2 l3))
       (display "Q1.1 test 5 pass\n")
       (display "Q1.1 test 5 FAILED\n"))
+    (sleep 0.5)
 (display "-------------------------------------------------------------------------------- \n")
+    (sleep 0.5)
   (if (equal? l (my_append_fr l l))
       (display "Q1.2 test 1 pass\n")
       (display "Q1.2 test 1 FAILED\n"))
@@ -123,7 +152,7 @@ display "___________TESTS___________"
 (display "---TEST Q2---\n")
   (let ([l'()] [l1 '(1 2 3 4 5 6)] [l2 '(543 234 121)] [l3 '(3 7.8 190)]
                [l1c '(2 4 6)] [l3c '(190)])
-    
+   (sleep 0.5) 
   (if (equal? l (filterl even? l))
       (display "Q2 test 1 pass\n")
       (display "Q2 test 1 FAILED\n"))
@@ -145,16 +174,13 @@ display "___________TESTS___________"
 
 (display "\n---END OF TEST Q2---\n\n")
 
-
+(sleep 0.5)
 ;--------------------------------------------------------------------------------
 
 (display "---TEST Q3---\n")
   (let ([l'()] [l1 '(a b c d)] [l2 '(x b d w)] [l3 '(x X)]
                [l32 '(b d w X)] [l3c '()])
-    
-    (display (set-dif l l))
-    (display "\n")
-    
+   (sleep 0.5) 
   (if (equal? l (set-dif l l))
       (display "Q3 test 1 pass\n")
       (display "Q3 test 1 FAILED\n"))
@@ -172,8 +198,21 @@ display "___________TESTS___________"
       (display "Q3 test 4 FAILED\n"))  
     )
   (sleep 0.5)
+ 
+(display "----------------------------------------------------------------------- \n")
 
-(display "\n---END OF TEST Q3---\n\n")
+(sleep 0.5)
+(display "---TEST Q4---\n")
+(let ([l '(2 3 (7 4 5 6) 8 (9) 2)]
+      [l1 '((3 (7 5) (9)) . 5)])
+   (sleep 0.5) 
+  (if (equal? l1 (foo l 0))
+      (display "Q4 test 1 pass\n")
+      (display "Q4 test 1 FAILED\n"))
+
+)
+
+(display "\n---END OF TEST Q4---\n\n")
 
 
                 
