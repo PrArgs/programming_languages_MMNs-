@@ -1,9 +1,10 @@
 #lang scheme
 
+(require "utils.scm")
+
 #|
 this is the Work product of Roi Argaman
 Q1.a : My_append 
-
 append 2 list into 1 with recursion
 |#
 (define my_append
@@ -66,6 +67,7 @@ Q3 : set-dif
  
 ;returns the symmetric difference by using the Propertie 
 ;is equivalent to the union of both relative complements A/\B = (A\B)U(B\A)
+;uses append but can easly use my_append
 (define set-dif
   (λ (lst1 lst2)    
     (append (sub lst1 lst2) (sub lst2 lst1))))
@@ -81,11 +83,11 @@ Q4 : complete foo
       [(pair? (car ls))
        (let ((p (foo (car ls) s)))
          (let ((p1 (foo (cdr ls) (cdr p))))
-           ;change here
+           ;if we got a pair p is the first iteam and p1 is the second 
            `(,(cons (car p) (car p1)) . ,(cdr p1))))]
       [(or (null? (car ls)) (odd? (car ls)))
        (let ((p (foo (cdr ls) s)))
-         ;change here
+         ;if we got to the end of a list or got odd number we will add it (car ls) and keep exploring (car p)
          `(,(cons (car ls) (car p)) . ,(cdr p)))]
       [else (let ((p (foo (cdr ls) s)))
               `(,(car p) . ,(add1 (cdr p))))])))
@@ -101,118 +103,54 @@ display "___________TESTS___________"
   (let ([l'()] [l1 '(a b c)] [l2 '(x y z)] [l3 '(ggs ppl 111)] 
                [l12 '(a b c x y z)] 
                [l23 '(x y z ggs ppl 111)])
-  (if (equal? l (my_append l l))
-      (display "Q1.1 test 1 pass\n")
-      (display "Q1.1 test 1 FAILED\n"))
-  (sleep 0.5)
-  (if (equal? l1 (my_append l l1))
-      (display "Q1.1 test 2 pass\n")
-      (display "Q1.1 test 2 FAILED\n"))
-   (sleep 0.5)  
-  (if (equal? l1 (my_append l1 l))
-      (display "Q1.1 test 3 pass\n")
-      (display "Q1.1 test 3 FAILED\n"))
-  (sleep 0.5) 
-  (if (equal? l12 (my_append l1 l2))
-      (display "Q1.1 test 4 pass\n")
-      (display "Q1.1 test 4 FAILED\n"))
-   (sleep 0.5)  
-  (if (equal? l23 (my_append l2 l3))
-      (display "Q1.1 test 5 pass\n")
-      (display "Q1.1 test 5 FAILED\n"))
-    (sleep 0.5)
+    (equal?? l (my_append l l))
+    (equal?? l1 (my_append l l1))
+    (equal?? l1 (my_append l1 l))
+    (equal?? l12 (my_append l1 l2))
+    (equal?? l23 (my_append l2 l3))
+    (report-unit-tests-completed 'my_append)
+    
 (display "-------------------------------------------------------------------------------- \n")
-    (sleep 0.5)
-  (if (equal? l (my_append_fr l l))
-      (display "Q1.2 test 1 pass\n")
-      (display "Q1.2 test 1 FAILED\n"))
-  (sleep 0.5)
-  (if (equal? l1 (my_append_fr l l1))
-      (display "Q1.2 test 2 pass\n")
-      (display "Q1.2 test 2 FAILED\n"))
-  (sleep 0.5)  
-  (if (equal? l1 (my_append_fr l1 l))
-      (display "Q1.2 test 3 pass\n")
-      (display "Q1.2 test 3 FAILED\n"))
-   (sleep 0.5)   
-  (if (equal? l12 (my_append_fr l1 l2))
-      (display "Q1.2 test 4 pass\n")
-      (display "Q1.2 test 4 FAILED\n"))
-   (sleep 0.5)   
-  (if (equal? l23 (my_append_fr l2 l3))
-      (display "Q1.2 test 5 pass\n")
-      (display "Q1.2 test 5 FAILED\n"))
-    (sleep 0.5)
+    (equal? l (my_append_fr l l))
+    (equal? l1 (my_append_fr l l1))
+    (equal? l1 (my_append_fr l1 l))
+    (equal? l12 (my_append_fr l1 l2))
+    (equal? l23 (my_append_fr l2 l3))
+    (report-unit-tests-completed 'my_append_fr)
     )
-  
-(display "\n---END OF TEST Q1---\n\n")
-(sleep 0.5)
-;--------------------------------------------------------------------------------
 
-(display "---TEST Q2---\n")
+(sleep 2)
+(display "--------------------------------------------------------------------------------")
+
+(display "\n---TEST Q2---\n")
   (let ([l'()] [l1 '(1 2 3 4 5 6)] [l2 '(543 234 121)] [l3 '(3 7.8 190)]
                [l1c '(2 4 6)] [l3c '(190)])
-   (sleep 0.5) 
-  (if (equal? l (filterl even? l))
-      (display "Q2 test 1 pass\n")
-      (display "Q2 test 1 FAILED\n"))
-    (sleep 0.5)
-  (if (equal? l1c (filterl even? l1))
-      (display "Q2 test 2 pass\n")
-      (display "Q2 test 2 FAILED\n"))
-   (sleep 0.5)
-  (if (equal? l3c (filterl even? l3c))
-      (display "Q2 test 3 pass\n")
-      (display "Q2 test 3 FAILED\n"))
-   (sleep 0.5)
-  (if (equal? '(234) (filterl even? l2))
-      (display "Q2 test 4 pass\n")
-      (display "Q2 test 4 FAILED\n"))
-  (sleep 0.5)
+    (equal? l (filterl even? l))
+    (equal? l1c (filterl even? l1))
+    (equal? l3c (filterl even? l3c))
+    (equal? '(234) (filterl even? l2))
+    (report-unit-tests-completed 'filterl)
     )
+(sleep 2)
+(display "--------------------------------------------------------------------------------")
 
-
-(display "\n---END OF TEST Q2---\n\n")
-
-(sleep 0.5)
-;--------------------------------------------------------------------------------
-
-(display "---TEST Q3---\n")
+(display "\n---TEST Q3---\n")
   (let ([l'()] [l1 '(a b c d)] [l2 '(x b d w)] [l3 '(x X)]
                [l32 '(b d w X)] [l3c '()])
-   (sleep 0.5) 
-  (if (equal? l (set-dif l l))
-      (display "Q3 test 1 pass\n")
-      (display "Q3 test 1 FAILED\n"))
-  (sleep 0.5)
-  (if (equal? l1 (set-dif l l1))
-      (display "Q3 test 2 pass\n")
-      (display "Q3 test 2 FAILED\n"))
-   (sleep 0.5) 
-  (if (equal? l32 (set-dif l3 l2))
-      (display "Q3 test 3 pass\n")
-      (display "Q3 test 3 FAILED\n"))
-   (sleep 0.5)
-  (if (equal? (set-dif l2 l3) (set-dif l3 l2))
-      (display "Q3 test 4 pass\n")
-      (display "Q3 test 4 FAILED\n"))  
-    )
-  (sleep 0.5)
+    (equal?? l (set-dif l l))
+    (equal?? l1 (set-dif l l1))
+    (equal?? l32 (set-dif l3 l2))
+    (report-unit-tests-completed 'set-dif)
+    )    
+  (sleep 2)
  
 (display "----------------------------------------------------------------------- \n")
 
-(sleep 0.5)
-(display "---TEST Q4---\n\n")
-(let ([l '(2 3 (7 4 5 6) 8 (9) 2)]
-      [l1 '((3 (7 5) (9)) . 5)])
-   (sleep 0.5) 
-  (if (equal? l1 (foo l 0))
-      (display "Q4 test 1 pass\n")
-      (display "Q4 test 1 FAILED\n"))
-
-)
-
-(display "\n---END OF TEST Q4---\n\n")
+(sleep 2)
+(display "---TEST Q4---\n")
+(define l '(2 3 (7 4 5 6) 8 (9) 2))
+  (equal?? (foo l 0) '((3 (7 5) (9)) . 5))
+  (report-unit-tests-completed 'foo)
 
 
                 
