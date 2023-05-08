@@ -27,37 +27,21 @@
       (expression
         ("-" "(" expression "," expression ")")
         diff-exp)
-;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       
-      
+      (expression (number) const-exp)
       (expression
         ("+" "(" expression "," expression ")")
         add-exp)
       
-      
+      (expression (number) const-exp)
       (expression
         ("*" "(" expression "," expression ")")
         mul-exp)
       
-      
+      (expression (number) const-exp)
       (expression
         ("/" "(" expression "," expression ")")
-        quot-exp)
-      
-      (expression
-        ("equal?" "(" expression "," expression ")")
-       equal?-exp)
-      
-      (expression
-        ("greater?" "(" expression "," expression ")")
-        greater?-exp)
-      
-      (expression
-        ("less?" "(" expression "," expression ")")
-        less?-exp)
-      
-      
-;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART ENDS HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+        dif-exp)
       
       (expression
        ("zero?" "(" expression ")")

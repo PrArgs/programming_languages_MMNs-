@@ -66,13 +66,13 @@
           (else (eopl:error 'run-one "no such test: ~s" test-name))))))
  
   ;; (run-all)
-    
+  
 ;-------------------------------------------------------------------------
    ;Unit tests
   (display "___Unit Testing___\n\n")
   
   
- (display "- Q1a -\n")
+  (display "- Q1a -\n")
     
   (equal?? (run " +(2,3)") (num-val 5)) 
   (equal?? (run " +(+(2,3) , 3)") (num-val 8))
@@ -83,38 +83,13 @@
   (equal?? (run " *(+(2,3) , 3)") (num-val 15))
   (equal?? (run " *(5 , *(2,3))") (num-val 30))
   (equal?? (run " *(+(5,2) , +(2,3))") (num-val 35))
- 
+  
   (equal?? (run " /(6,3)") (num-val 2)) 
   (equal?? (run " +(/(9,3) , 3)") (num-val 6))
   (equal?? (run " /(10 , +(2,3))") (num-val 2))
   (equal?? (run " /(+(5,3) , +(2,2))") (num-val 2))
-
+  
   (report-unit-tests-completed 'Q1a)
-  
-  ;-------------------------------------------------------------------------
-  
-  (display "- Q1b -\n")
-  
-  
-  (equal?? (run " greater?(2,3)") (bool-val #f)) 
-  (equal?? (run " greater?(+(2,3) , 3)") (bool-val #t))
-  (equal?? (run " greater?(5 , +(2,3))") (bool-val #f)) 
-  (equal?? (run " greater?(+(5,2) , +(2,3))") (bool-val #t))
-  
-  (equal?? (run " less?(2,3)") (bool-val #t)) 
-  (equal?? (run " less?(+(2,3) , 3)") (bool-val #f))
-  (equal?? (run " less?(5 , *(2,3))") (bool-val #t))
-  (equal?? (run " less?(+(5,2) , +(2,3))") (bool-val #f))
-  
-  (equal?? (run " equal?(2,3)") (bool-val #f)) 
-  (equal?? (run " equal?(+(2,3) , 3)") (bool-val #f))
-  (equal?? (run " equal?(5 , +(2,3))") (bool-val #t))
-  (equal?? (run " equal?(+(5,2) , +(2,3))") (bool-val #f))
-  
-  (report-unit-tests-completed 'Q1b)
-  ;-------------------------------------------------------------------------
-   
-
   
   )
 
