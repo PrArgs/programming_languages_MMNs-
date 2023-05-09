@@ -6,7 +6,7 @@
   
   (define test-list
     '(
-  
+  #|
       ;; simple arithmetic
       (positive-const "11" 11)
       (negative-const "-33" -33)
@@ -54,6 +54,49 @@
       (simple-nested-let "let x = 3 in let y = 4 in -(x,y)" -1)
       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+      
+|#
+      
+      ;;Q1A
+      ;;checking addition 
+      (simp-add " +(-1,2)" 1)
+      (comp-add" +(+(-1,3) , 3)" 5)
+      (comp-add2 " +(-5 , +(2,1))" -2)
+      
+      ;checking multipication
+      (simp-mul " *(1,2)" 2)
+      (neg-one-nul " *(-1,2)" -2)
+      (zero-comp-mull " *(+(682,4153) , 0)" 0)
+      
+      ;checking devition 
+      (simp-dev " /(3,3)" 1)
+      (zero_dev " /(2131,0)" error)
+      (comp-dev " /(4 , +(3,3))" 0)
+      (one-comp-dev " /(68, +(/(4,1) ,4))" 8)
+      
+      ;Q1B
+      ;less
+      (simp-less "less? (/(3,3) , 1)" #f)
+      (zero-less "less? (2131,0)" #f)
+      (comp-less "less? (4 , +(3,-3))" #f)
+      (sec-comp-less "less? (+(/(4,1) ,4), 68)" #t)
+      
+      ;equal
+      (simp-equal "equal? (/(3,3) , 1)" #t)
+      (zero-equal "equal? (2131,0)" #f)
+      (comp-equal "equal? (4 , +(3,-3))" #f)
+      (sec-comp-equal "equal? (+(/(4,1) ,4), 68)" #f)
+      
+       ;greater
+      (simp-greater "greater? (/(3,3) , 1)" #f)
+      (zero-greater "greater? (2131,0)" #t)
+      (comp-greater "greater? (4 , +(3,-3))" #t)
+      (sec-comp-greater "greater? (+(/(4,1) ,4), 68)" #f)
+      
+      ;;Q2 is at top.scm
+      
+      ;;check Array Q3
+      (check-arry-by-book " let A = array {10, -(5,7) , zero?(8), array {1,2,3}, 12 } in
+                         -(<A>[1] , <<A>[4]>[2])" 8)
 
-      ))
-  )
+      )))

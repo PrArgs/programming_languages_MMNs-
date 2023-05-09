@@ -81,6 +81,16 @@
        ("list" "(" (separated-list expression ",") ")") 
        list-exp)
       
+      ; expression parser for creating an array Q3
+      (expression 
+       ("array" "{" (separated-list expression ",") "}" )
+       array-exp)
+      
+      ; expression parser for extracting a value out of an array at an index Q3
+      (expression
+       ("<" expression ">" "[" expression "]")
+       index-exp)
+      
       
       
 ;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART ENDS HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      

@@ -63,7 +63,9 @@
    ;; Real empty list
 	(emptylist-val () #t)
    ;; A list but not an empty one
-   (cons-val (first rest) #f)    
+   (cons-val (first rest) #f)  ;cons
+   (num-val (num) #f)   ;number
+   (bool-val (bool) #f)     ;boolean
 	(else (expval-extractor-error null? v)))))
 
 ;;;;;;;;;;;;;;;; environment structures ;;;;;;;;;;;;;;;;

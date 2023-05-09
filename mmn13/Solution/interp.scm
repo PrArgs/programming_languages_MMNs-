@@ -106,7 +106,7 @@
                 (bool-val #t)
                 (bool-val #f)))))        
       
-;;;;;;;Q2.A;;;;;;;;;
+;;;;;;;Q2A;;;;;;;;;
         
         ;\commentbox{\constestspec}
         (cons-exp (exp1 exp2)                  
@@ -114,30 +114,50 @@
                 (val2 (value-of exp2 env)))
                    (cons-val val1 val2)))
         
-        
+         ;\commentbox{\carestspec}
         (car-exp (exp1)                  
           (let ((val1 (value-of exp1 env)))
                    (expval->car val1)))
         
-        
+         ;\commentbox{\cdrtestspec}
         (cdr-exp (exp1)                  
           (let ((val1 (value-of exp1 env)))
                    (expval->cdr val1)))
         
-        
+         ;emptylist check
+         ;\commentbox{\nulltestspec}
         (null?-exp (exp1)                  
           (let ((val1 (value-of exp1 env)))
              (let ((bool(expval->null? val1)))
                (bool-val bool))))
         
-        
+        ;\commentbox{\emptylisttestspec}
         (emptylist-exp ()
-                       (emptylist-val))
+                       (emptylist-val))       
+      
+;;;;;;;Q2A;;;;;;;;;
         
-        
+        ;\commentbox{\listtestspec}       
         ;uses foldr to list the expretions
         (list-exp (exps)
-         (my_foldr cons-val (emptylist-val) (map (lambda (expr) (value-of expr env)) exps)))
+          (my_foldr (emptylist-val) (map (lambda (expr) (value-of expr env)) exps)))
+
+;;;;;;;Q3;;;;;;;;;
+        
+        ;\commentbox{\Arraytestspec} 
+        ; arry represented by list
+        (array-exp (exps)
+          (my_foldr (emptylist-val) (map (lambda (expr) (value-of expr env)) exps)))
+        
+         ;\commentbox{\Indextestspec} 
+        ; works as arry[i] in OOP lang 
+        (index-exp (array index)
+                 (define (index-iterator array index counter)
+                     (if (expval->null? array) (eopl:error "Index out of range")
+                       (if (equal? counter (expval->num (value-of index env)))
+                           (expval->car array)
+                           (index-iterator (expval->cdr array) index (+ counter 1)))))
+                               (index-iterator (value-of array env) index 1))
                  
         
 
@@ -176,16 +196,17 @@
            (let* ((v1 (value-of (car exps) env))
                   (e1 (extend-env (list (car vars)) (list v1) env)))
             (value-of (let*-exp (cdr vars) (cdr exps) body) e1))))
+        
 
         )))
   
 
 ;since eopl does not have foldr func i implimnted one myself
   (define my_foldr 
-         (lambda (func init list)
+         (lambda (init list)
            (if (null? list)
                init
-               (func (car list) (my_foldr func init (cdr list))))))
+               (cons-val (car list) (my_foldr init (cdr list))))))
   
   
 (define values-of-exps
