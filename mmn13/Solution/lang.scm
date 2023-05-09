@@ -22,7 +22,6 @@
   
   (define the-grammar
     '((program (expression) a-program)
-
       (expression (number) const-exp)
       (expression
         ("-" "(" expression "," expression ")")
@@ -77,6 +76,11 @@
       (expression
        ("emptylist")
        emptylist-exp)
+      
+      (expression 
+       ("list" "(" (separated-list expression ",") ")") 
+       list-exp)
+      
       
       
 ;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART ENDS HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      

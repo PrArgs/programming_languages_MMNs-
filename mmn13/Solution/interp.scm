@@ -134,6 +134,14 @@
         (emptylist-exp ()
                        (emptylist-val))
         
+        
+        ;uses foldr to list the expretions
+        (list-exp (exps)
+         (my_foldr cons-val (emptylist-val) (map (lambda (expr) (value-of expr env)) exps)))
+                 
+        
+
+        
       
         
         
@@ -170,7 +178,16 @@
             (value-of (let*-exp (cdr vars) (cdr exps) body) e1))))
 
         )))
+  
 
+;since eopl does not have foldr func i implimnted one myself
+  (define my_foldr 
+         (lambda (func init list)
+           (if (null? list)
+               init
+               (func (car list) (my_foldr func init (cdr list))))))
+  
+  
 (define values-of-exps
     (lambda (exps env)
       (map (lambda(x) (value-of x env)) exps)))

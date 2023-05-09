@@ -145,6 +145,20 @@
   
   ;-------------------------------------------------------------------------
 
+  (display "- Q2b -\n")
+
+  
+  (equal?? (run " let x = 4
+                    in list(x, -(x,1), -(x,3))") (cons-val (num-val 4) (cons-val (num-val 3) (cons-val (num-val 1) (emptylist-val)))))
+  
+  (equal?? (run " car(list (15, 6, 7, 8 ,9))") (num-val 15)) 
+  (equal?? (run " cdr(list (15, 6, 7))") (cons-val (num-val 6) (cons-val (num-val 7) (emptylist-val))))
+  (equal?? (run " car(cdr( list ( 15, 6, 7, 8 ,9)))") (num-val 6))
+ 
+  (report-unit-tests-completed 'Q2b)
+
+  ;-------------------------------------------------------------------------
+
   
   )
 
