@@ -28,17 +28,17 @@
         diff-exp)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       
-      
+      ;add exp
       (expression
         ("+" "(" expression "," expression ")")
         add-exp)
-      
-      
+           
+      ;mull exp      
       (expression
         ("*" "(" expression "," expression ")")
         mul-exp)
-      
-      
+           
+      ;dev exp     
       (expression
         ("/" "(" expression "," expression ")")
         quot-exp)
@@ -77,16 +77,19 @@
        ("emptylist")
        emptylist-exp)
       
+;;;;;;;Q2.B;;;;;;;;;      
       (expression 
        ("list" "(" (separated-list expression ",") ")") 
        list-exp)
       
-      ; expression parser for creating an array Q3
+;;;;;;;Q3;;;;;;;;;      
+      
+      ; syntax for creating an array 
       (expression 
        ("array" "{" (separated-list expression ",") "}" )
        array-exp)
       
-      ; expression parser for extracting a value out of an array at an index Q3
+      ; syntax for value extraction from specific index of an array  
       (expression
        ("<" expression ">" "[" expression "]")
        index-exp)
