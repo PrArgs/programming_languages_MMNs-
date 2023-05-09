@@ -35,8 +35,7 @@
         (var-exp (var) (apply-env env var))
 
         ;\commentbox{\diffspec}
-        (diff-exp (exp1 exp2)
-                  
+        (diff-exp (exp1 exp2)                  
           (let ((val1 (value-of exp1 env))
                 (val2 (value-of exp2 env)))
             (let ((num1 (expval->num val1))
@@ -105,7 +104,38 @@
                   (num2 (expval->num val2)))
               (if (< num1 num2)
                 (bool-val #t)
-                (bool-val #f)))))
+                (bool-val #f)))))        
+      
+;;;;;;;Q2.A;;;;;;;;;
+        
+        ;\commentbox{\constestspec}
+        (cons-exp (exp1 exp2)                  
+          (let ((val1 (value-of exp1 env))
+                (val2 (value-of exp2 env)))
+                   (cons-val val1 val2)))
+        
+        
+        (car-exp (exp1)                  
+          (let ((val1 (value-of exp1 env)))
+                   (expval->car val1)))
+        
+        
+        (cdr-exp (exp1)                  
+          (let ((val1 (value-of exp1 env)))
+                   (expval->cdr val1)))
+        
+        
+        (null?-exp (exp1)                  
+          (let ((val1 (value-of exp1 env)))
+             (let ((bool(expval->null? val1)))
+               (bool-val bool))))
+        
+        
+        (emptylist-exp ()
+                       (emptylist-val))
+        
+      
+        
         
 ;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART ENDS HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -127,7 +157,6 @@
         ;\commentbox{\ma{\theletspecsplit}}
         (let-exp (vars exps body)       
           (let ((vals (values-of-exps exps env)))
-            
             (value-of body
               (extend-env vars vals env))))
             

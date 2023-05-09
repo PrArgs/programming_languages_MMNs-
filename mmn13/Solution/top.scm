@@ -112,8 +112,38 @@
   (equal?? (run " equal?(+(5,2) , +(2,3))") (bool-val #f))
   
   (report-unit-tests-completed 'Q1b)
+  
+;-------------------------------------------------------------------------
+  
+  (display "- Q2a -\n")
+  
+  
+  (equal?? (run " cons(2,3)") (cons-val (num-val 2) (num-val 3))) 
+  (equal?? (run " cons(cons(2,3) , 3)") (cons-val (cons-val (num-val 2) (num-val 3)) (num-val 3)))
+  (equal?? (run " cons(5 , cons(2,3))") (cons-val (num-val 5) (cons-val(num-val 2) (num-val 3)))) 
+  (equal?? (run " cons(cons(5,2) , cons(2,3))") (cons-val (cons-val (num-val 5) (num-val 2)) (cons-val (num-val 2)(num-val 3))))
+  (equal?? (run " cons(2, cons( 3, cons( 4, emptylist)))") (cons-val (num-val 2) (cons-val (num-val 3) (cons-val (num-val 4) (emptylist-val)))))
+  
+  (equal?? (run " car( cons(2, cons( 3, cons( 4, emptylist))))") (num-val 2)) 
+  (equal?? (run " cdr( cons(2, cons( 3, cons( 4, emptylist))))") (cons-val (num-val 3) (cons-val (num-val 4) (emptylist-val))))
+  (equal?? (run " car(cdr( cons(2, cons( 3, cons( 4, emptylist)))))") (num-val 3))
+  
+  (equal?? (run " null?(cons(0,emptylist))") (bool-val #f))
+  (equal?? (run " null?(emptylist)") (bool-val #t))
+  (equal?? (run " null?(cdr(cons(0,emptylist)))") (bool-val #t))
+  
+   (equal?? (run " let x = 4 
+                    in cons(x,
+                      cons(cons(-(x,1),
+                           emptylist),
+                     emptylist))") (cons-val (num-val 4) (cons-val (cons-val (num-val 3) (emptylist-val)) (emptylist-val))))
+  
+  
+  (equal?? (run " emptylist") (emptylist-val))
+  
+  (report-unit-tests-completed 'Q2a)
+  
   ;-------------------------------------------------------------------------
-   
 
   
   )

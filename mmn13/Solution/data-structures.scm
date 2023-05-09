@@ -12,7 +12,12 @@
     (num-val
       (value number?))
     (bool-val
-      (boolean boolean?)))
+      (boolean boolean?))
+    ;;expressed value for empty list
+    (emptylist-val)
+    ;;expressed value for cons
+    (cons-val
+     (first expval?) (rest expval?)))
 
 ;;; extractors:
 
@@ -34,6 +39,32 @@
     (lambda (variant value)
       (eopl:error 'expval-extractors "Looking for a ~s, found ~s"
 	variant value)))
+
+
+  
+  ;; expval->car : ExpVal -> ExpVal
+  (define expval->car
+    (lambda (v)
+      (cases expval v
+	(cons-val (first rest) first)
+	(else (expval-extractor-error 'car v)))))
+  
+  ;; expval->cdr : ExpVal -> ExpVal
+  (define expval->cdr
+    (lambda (v)
+      (cases expval v
+	(cons-val (first rest) rest)
+	(else (expval-extractor-error 'cdr v)))))
+  
+  ;; expval->null? : ExpVal -> bool
+  (define expval->null?
+    (lambda (v)
+      (cases expval v
+   ;; Real empty list
+	(emptylist-val () #t)
+   ;; A list but not an empty one
+   (cons-val (first rest) #f)    
+	(else (expval-extractor-error null? v)))))
 
 ;;;;;;;;;;;;;;;; environment structures ;;;;;;;;;;;;;;;;
   (define-datatype environment environment?
