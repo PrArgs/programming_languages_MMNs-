@@ -71,7 +71,10 @@
         (call-exp (rator rand)
           (let ((proc (expval->proc (value-of rator env)))
                 (arg (value-of rand env)))
-            (apply-procedure proc arg)))
+            (apply-procedure proc arg)))        
+        
+        
+        
 
         )))
 

@@ -6,7 +6,12 @@
   
   (define test-list
     '(
-  
+       
+      ;;Q2A
+      (istwice-proc_not "let istwice = proc (x) proc (y) zero?(-(x,-(y,-(0,y)))) in ((istwice 6) 3)" #t)
+      (istwice-proc_not "let istwice = proc (x) proc (y) zero?(-(x,-(y,-(0,y)))) in ((istwice 3) 6)" #f)
+      (istwice-proc_not "let istwice = proc (x) proc (y) zero?(-(x,-(y,-(0,y)))) in ((istwice 3) 4)" #f)
+ #|
       ;; simple arithmetic
       (positive-const "11" 11)
       (negative-const "-33" -33)
@@ -72,6 +77,6 @@ let fix =  proc (f)
 in let
     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
 in let times4 = (fix t4m)
-   in (times4 3)" 12)
+   in (times4 3)" 12) |#
       ))
   )
