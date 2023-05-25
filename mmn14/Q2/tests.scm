@@ -11,6 +11,124 @@
       (istwice-proc_not "let istwice = proc (x) proc (y) zero?(-(x,-(y,-(0,y)))) in ((istwice 6) 3)" #t)
       (istwice-proc_not "let istwice = proc (x) proc (y) zero?(-(x,-(y,-(0,y)))) in ((istwice 3) 6)" #f)
       (istwice-proc_not "let istwice = proc (x) proc (y) zero?(-(x,-(y,-(0,y)))) in ((istwice 3) 4)" #f)
+      
+      
+      ;;Q2C
+      
+      #|
+
+
+let ishalf = proc (counter) proc (x) 
+                                if zero? (x) then 0 
+                                else if zero? (-(x,-(0,1))) then -(0,1)
+                                else  -(((counter counter) -(x,2)) , -1)  
+                                in let half = proc (x) ((ishalf ishalf) x)
+
+in let ispower = proc (multiplior) 
+                       proc (n)
+                       proc (y)
+                       proc(halfn)
+                                if zero? (-(n,y))  ;;;;;;;if true it means n is 1 or power of 2
+                                then zero? (0)                                 
+                                else if zero?(halfn)  ;;;;; if we halfn is 0 it means we y is now greater then n so we can be sure n is not a power of 2
+                                then zero?(1)                                
+                                else ((( (multiplior multiplior)n) -(y , -(0,y)))(half halfn))  ;; multipal y by 2 and recheck when multiplior = ispower 
+                                                                                                ;;and devide halfn as a break-cond
+                                in let start = proc (n)
+                                               if zero? (-(n,1)) 
+                                               then zero?(0)
+                                               else ((((ispower ispower)n) 2) -(n,-(0,n))) ;; init the multiplayor to 1 to make sure we compair only powers of 2 
+                                                                                           ;; and break-cond to 2n so we can be sure wehn we passed n and found nouthing 
+                                 in (start n)) ;; assign n with a const num val and get the aswer.
+
+
+|#
+      
+      (powers-of-2-1 "let ishalf = proc (counter) proc (x) 
+                                if zero? (x) then 0 
+                                else if zero? (-(x,-(0,1))) then -(0,1)
+                                else  -(((counter counter) -(x,2)) , -1)  
+                                in let half = proc (x) ((ishalf ishalf) x)
+
+in let ispower = proc (multiplior) 
+                       proc (n)
+                       proc (y)
+                       proc(halfn)
+                                if zero? (-(n,y)) 
+                                then zero? (0)                                 
+                                else if zero?(halfn)
+                                then zero?(1)                                
+                                else ((( (multiplior multiplior)n) -(y , -(0,y)))(half halfn)) 
+                                in let start = proc (n)
+                                               if zero? (-(n,1)) 
+                                               then zero?(0)
+                                               else ((((ispower ispower)n) 2) -(n,-(0,n)))
+                                 in (start 5)" #f)
+      
+      (powers-of-2-2 "let ishalf = proc (counter) proc (x) 
+                                if zero? (x) then 0 
+                                else if zero? (-(x,-(0,1))) then -(0,1)
+                                else  -(((counter counter) -(x,2)) , -1)  
+                                in let half = proc (x) ((ishalf ishalf) x)
+
+in let ispower = proc (multiplior) 
+                       proc (n)
+                       proc (y)
+                       proc(halfn)
+                                if zero? (-(n,y)) 
+                                then zero? (0)                                 
+                                else if zero?(halfn)
+                                then zero?(1)                                
+                                else ((( (multiplior multiplior)n) -(y , -(0,y)))(half halfn)) 
+                                in let start = proc (n)
+                                               if zero? (-(n,1)) 
+                                               then zero?(0)
+                                               else ((((ispower ispower)n) 2) -(n,-(0,n)))
+                                 in (start 1024)" #t)
+      
+      (powers-of-2-3 "let ishalf = proc (counter) proc (x) 
+                                if zero? (x) then 0 
+                                else if zero? (-(x,-(0,1))) then -(0,1)
+                                else  -(((counter counter) -(x,2)) , -1)  
+                                in let half = proc (x) ((ishalf ishalf) x)
+
+in let ispower = proc (multiplior) 
+                       proc (n)
+                       proc (y)
+                       proc(halfn)
+                                if zero? (-(n,y)) 
+                                then zero? (0)                                 
+                                else if zero?(halfn)
+                                then zero?(1)                                
+                                else ((( (multiplior multiplior)n) -(y , -(0,y)))(half halfn)) 
+                                in let start = proc (n)
+                                               if zero? (-(n,1)) 
+                                               then zero?(0)
+                                               else ((((ispower ispower)n) 2) -(n,-(0,n)))
+                                 in (start 1)" #t)
+      
+      (powers-of-2-4 "let ishalf = proc (counter) proc (x) 
+                                if zero? (x) then 0 
+                                else if zero? (-(x,-(0,1))) then -(0,1)
+                                else  -(((counter counter) -(x,2)) , -1)  
+                                in let half = proc (x) ((ishalf ishalf) x)
+
+in let ispower = proc (multiplior) 
+                       proc (n)
+                       proc (y)
+                       proc(halfn)
+                                if zero? (-(n,y)) 
+                                then zero? (0)                                 
+                                else if zero?(halfn)
+                                then zero?(1)                                
+                                else ((( (multiplior multiplior)n) -(y , -(0,y)))(half halfn)) 
+                                in let start = proc (n)
+                                               if zero? (-(n,1)) 
+                                               then zero?(0)
+                                               else ((((ispower ispower)n) 2) -(n,-(0,n)))
+                                 in (start 0)" #f)
+      
+      
  #|
       ;; simple arithmetic
       (positive-const "11" 11)
