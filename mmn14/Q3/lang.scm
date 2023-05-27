@@ -40,7 +40,36 @@
        ("let" identifier "=" expression "in" expression)
        let-exp)
       
-      ;;;;;;;;;;;;;;Q3;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      
+      ;add exp
+      (expression
+        ("+" "(" expression "," expression ")")
+        add-exp)
+           
+      ;mull exp      
+      (expression
+        ("*" "(" expression "," expression ")")
+        mul-exp)
+           
+      ;dev exp     
+      (expression
+        ("/" "(" expression "," expression ")")
+        quot-exp)
+      
+      (expression
+        ("equal?" "(" expression "," expression ")")
+       equal?-exp)
+      
+      (expression
+        ("greater?" "(" expression "," expression ")")
+        greater?-exp)
+      
+      (expression
+        ("less?" "(" expression "," expression ")")
+        less?-exp)
+      
+;;;;;;;Q2.A;;;;;;;;;
       
       (expression
         ("cons" "(" expression "," expression ")")
@@ -60,13 +89,16 @@
       
       (expression
        ("emptylist")
-       emptylist-exp)      
-     
+       emptylist-exp)
+      
+;;;;;;;Q2.B;;;;;;;;;      
       (expression 
        ("list" "(" (separated-list expression ",") ")") 
        list-exp)
       
-            ; syntax for creating an array 
+;;;;;;;Q3;;;;;;;;;      
+      
+      ; syntax for creating an array 
       (expression 
        ("array" "{" (separated-list expression ",") "}" )
        array-exp)
@@ -75,6 +107,10 @@
       (expression
        ("<" expression ">" "[" expression "]")
        index-exp)
+      
+      
+      
+;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART ENDS HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       
 
       (expression

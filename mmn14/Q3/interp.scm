@@ -66,7 +66,70 @@
               (extend-env var val1 env))))
         
         
-        ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;Q1 : Adding add-exp , mul-exp, quot-exp
+        ;
+        ;\commentbox{\addspec}
+        (add-exp (exp1 exp2)                  
+          (let ((val1 (value-of exp1 env))
+                (val2 (value-of exp2 env)))
+            (let ((num1 (expval->num val1))
+                  (num2 (expval->num val2)))
+              (num-val
+               (+ num1 num2)))))
+        
+        ;\commentbox{\mulspec}
+        (mul-exp (exp1 exp2)                  
+          (let ((val1 (value-of exp1 env))
+                (val2 (value-of exp2 env)))
+            (let ((num1 (expval->num val1))
+                  (num2 (expval->num val2)))
+              (num-val
+                (* num1 num2)))))
+        
+        ;\commentbox{\devspec}
+        (quot-exp (exp1 exp2)                  
+          (let ((val1 (value-of exp1 env))
+                (val2 (value-of exp2 env)))
+            (let ((num1 (expval->num val1))
+                  (num2 (expval->num val2)))
+              ( if (zero? num2)
+                   (eopl:error 'quot-exp "We dont divide byt zero ~s" num2)
+                   (num-val (floor (/ num1 num2)))))))
+        
+        
+        ;\commentbox{\zerotestspec}
+        (equal?-exp (exp1 exp2)                  
+          (let ((val1 (value-of exp1 env))
+                (val2 (value-of exp2 env)))
+            (let ((num1 (expval->num val1))
+                  (num2 (expval->num val2)))
+              (if (equal? num1 num2)
+                (bool-val #t)
+                (bool-val #f)))))
+        
+        ;\commentbox{\zerotestspec}
+        (greater?-exp (exp1 exp2)                  
+          (let ((val1 (value-of exp1 env))
+                (val2 (value-of exp2 env)))
+            (let ((num1 (expval->num val1))
+                  (num2 (expval->num val2)))
+              (if (> num1 num2)
+                (bool-val #t)
+                (bool-val #f)))))
+        
+        ;\commentbox{\zerotestspec}
+        (less?-exp (exp1 exp2)                  
+          (let ((val1 (value-of exp1 env))
+                (val2 (value-of exp2 env)))
+            (let ((num1 (expval->num val1))
+                  (num2 (expval->num val2)))
+              (if (< num1 num2)
+                (bool-val #t)
+                (bool-val #f)))))        
+      
+;;;;;;;Q2A;;;;;;;;;
         
         ;\commentbox{\constestspec}
         (cons-exp (exp1 exp2)                  
@@ -95,14 +158,16 @@
         (emptylist-exp ()
                        (emptylist-val))       
       
-
+;;;;;;;Q2A;;;;;;;;;
         
         ;\commentbox{\listtestspec}       
         ;uses foldr to list the expretions
         (list-exp (exps)
           (my_foldr (emptylist-val) (map (lambda (expr) (value-of expr env)) exps)))
+
+;;;;;;;Q3;;;;;;;;;
         
-                ;\commentbox{\Arraytestspec} 
+        ;\commentbox{\Arraytestspec} 
         ; arry represented by list
         (array-exp (exps)
           (my_foldr (emptylist-val) (map (lambda (expr) (value-of expr env)) exps)))
@@ -116,6 +181,14 @@
                            (expval->car array)
                            (index-iterator (expval->cdr array) index (+ counter 1)))))
                                (index-iterator (value-of array env) index 1))
+                 
+        
+
+        
+      
+        
+        
+;;;;;;;;;;;;;;;;;;;;;;;;;;MMN13 PART ENDS HERE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                  
         
 

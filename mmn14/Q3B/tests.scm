@@ -7,20 +7,13 @@
   (define test-list
     '(
       
-      (check-arry-by-book " let A = array {10, -(5,7) , zero?(8), array {1,2,3}, 12 } in
-                         -(<A>[1] , <<A>[4]>[2])" 8)
-       #| 
       (examp-1 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p)" 40)
       (examp-1 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p b=50)" 70)
       (examp-1 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p x=50)" error)
       (examp-1 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p c=110, a=35)" 85)
-      
-      
-      
-    
-
   
-      ;; simple arithmetic
+      #|
+;; simple arithmetic
       (positive-const "11" 11)
       (negative-const "-33" -33)
       (simple-arith-1 "-(44,33)" 11)
