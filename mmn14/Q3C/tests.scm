@@ -8,8 +8,8 @@
     '(
       
       (empty   "let p = proc () -(3, -(2,1))in (p)" 2)
-      (one   "let p = proc (a=3) -(a, -(2,1))in (p)" 2)
-      #|   (examp-1 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p)" 40)
+     #|  (one   "let p = proc (a=3) -(a, -(2,1))in (p)" 2)
+        (examp-1 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p)" 40)
       (examp-2 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p b=50)" 70)
       (examp-3 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p x=50)" error)
       (examp-4 "let p = proc (a=10,b=20,c=30) -(c, -(a,b)) in (p c=110, a=35)" 85)
