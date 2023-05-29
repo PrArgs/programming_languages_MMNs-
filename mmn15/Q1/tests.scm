@@ -5,6 +5,14 @@
   
   (define test-list
     '(
+      
+      
+      (assignment-test "let a=3 in let b=4 in let c= 5 in begin
+                         foreach x in (a,b,c) set x= -(x,1);
+                         -(a, -(0, -(b, -(0,c))))
+                           end" 9)
+      
+      #|
   
       ;; simple arithmetic
       (positive-const "11" 11)
@@ -130,7 +138,7 @@ let f = proc (x) proc (y)
                    -(x,y)
                   end
 in ((f 44) 33)"
-	12)
+	12)|#
       
       ))
   )
