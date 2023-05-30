@@ -101,8 +101,10 @@
             (num-val 27)))
         
         (foreach-exp (id1 ids1 ids body)
-          (applly-foreach id1 ids1 ids body env))
-                     
+                     (letrec (( dumdum (du 3))
+                              (dummy (applly-foreach id1 ids1 ids body env)))
+                     (display "\n we are here 2 \n"))
+                     (num-val 23))
 
         )))
 
@@ -160,20 +162,22 @@
                   (display   (deref (apply-env new-env x)))
                   (display "\n")                  
                   (setref!
-                   (apply-env new-env first)
+                   (apply-env env first)
                    (deref (apply-env new-env x)))
-                  ( if (pair? rest)
-                       (value-of x (extend-env x (newref (num-val 23)) (applly-foreach x (car rest) (cdr rest) body new-env)))                       
+                  ( if (pair? rest)                   
+                       (applly-foreach x (car rest) (cdr rest) body new-env)
                        ((display "\n")
-                        (display   new-env)
-                        (display "\n") 
-                        (value-of body (extend-env x (newref (num-val 23)) new-env))))))))))
+                  (display   (deref (apply-env new-env x)))
+                  (display "\n") 
+                        (new-env)))))))))
       
       
-  
-  
-
-
+      
+      (define du
+        (lambda (c)
+          (if (= c 0)
+              (#t)
+              (du (- c 1)))))
   )
   
 
