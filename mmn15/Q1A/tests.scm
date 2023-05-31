@@ -11,7 +11,7 @@
                          in let b=4
                            in let c=5 
                            in begin
-                               foreach x in (a,b,c) set x= -(x,1);
+                               foreach x in (a,b,c,dummy) set x= -(x,1);
                                -(a, -(0, -(b, -(0,c))))
                            end" 9)
       

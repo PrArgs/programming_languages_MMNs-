@@ -1,6 +1,6 @@
 (module interp (lib "eopl.ss" "eopl")
   
-  ;; interpreter for the IMPLICIT-REFS language
+  ;; interpreter for the EXPLICIT-REFS language
 
   (require "drscheme-init.scm")
 
@@ -21,15 +21,16 @@
 ;;;;;;;;;;;;;;;; the interpreter ;;;;;;;;;;;;;;;;
 
   ;; value-of-program : Program -> ExpVal
+  ;; Page: 110
   (define value-of-program 
     (lambda (pgm)
-      (initialize-store!)
+      (initialize-store!)               ; new for explicit refs.
       (cases program pgm
         (a-program (exp1)
           (value-of exp1 (init-env))))))
 
   ;; value-of : Exp * Env -> ExpVal
-  ;; Page: 118, 119
+  ;; Page: 113
   (define value-of
     (lambda (exp env)
       (cases expression exp
@@ -37,9 +38,8 @@
         ;\commentbox{ (value-of (const-exp \n{}) \r) = \n{}}
         (const-exp (num) (num-val num))
 
-        ;\commentbox{ (value-of (var-exp \x{}) \r) 
-        ;              = (deref (apply-env \r \x{}))}
-        (var-exp (var) (deref (apply-env env var)))
+        ;\commentbox{ (value-of (var-exp \x{}) \r) = (apply-env \r \x{})}
+        (var-exp (var) (apply-env env var))
 
         ;\commentbox{\diffspec}
         (diff-exp (exp1 exp2)
@@ -49,7 +49,7 @@
                   (num2 (expval->num val2)))
               (num-val
                 (- num1 num2)))))
-
+      
         ;\commentbox{\zerotestspec}
         (zero?-exp (exp1)
           (let ((val1 (value-of exp1 env)))
@@ -67,9 +67,9 @@
 
         ;\commentbox{\ma{\theletspecsplit}}
         (let-exp (var exp1 body)       
-          (let ((v1 (value-of exp1 env)))
+          (let ((val1 (value-of exp1 env)))
             (value-of body
-              (extend-env var (newref v1) env))))
+              (extend-env var val1 env))))
         
         (proc-exp (var body)
           (proc-val (procedure var body env)))
@@ -93,48 +93,53 @@
                      (value-of-begins (car es) (cdr es)))))))
             (value-of-begins exp1 exps)))
 
-        (assign-exp (var exp1)
-          (begin
-            (setref!
-              (apply-env env var)
-              (value-of exp1 env))
-            (num-val 27)))
+        (newref-exp (exp1)
+          (let ((v1 (value-of exp1 env)))
+            (ref-val (newref v1))))
+
+        (deref-exp (exp1)
+          (let ((v1 (value-of exp1 env)))
+            (let ((ref1 (expval->ref v1)))
+              (deref ref1))))
+
+        (setref-exp (exp1 exp2)
+          (let ((ref (expval->ref (value-of exp1 env))))
+            (let ((v2 (value-of exp2 env)))
+              (begin
+                (setref! ref v2)
+                (num-val 23)))))
         
         (foreach-exp (id1 ids1 ids body)
-          (applly-foreach id1 ids1 ids body env))
-                     
-
+              (applly-foreach id1 ids1 ids body env))
         )))
 
-
   ;; apply-procedure : Proc * ExpVal -> ExpVal
-  ;; Page: 119
-
+  ;; 
   ;; uninstrumented version
-  ;;  (define apply-procedure
-  ;;    (lambda (proc1 val)
+  ;;   (define apply-procedure
+  ;;    (lambda (proc1 arg)
   ;;      (cases proc proc1
-  ;;        (procedure (var body saved-env)
-  ;;          (value-of body
-  ;;            (extend-env var (newref val) saved-env))))))
-  
+  ;;        (procedure (bvar body saved-env)
+  ;;          (value-of body (extend-env bvar arg saved-env))))))
+
   ;; instrumented version
   (define apply-procedure
     (lambda (proc1 arg)
       (cases proc proc1
         (procedure (var body saved-env)
-          (let ((r (newref arg)))
-            (let ((new-env (extend-env var r saved-env)))
-              (if (instrument-let)
-                (begin
-                  (eopl:printf
-                    "entering body of proc ~s with env =~%"
-                    var)
-                  (pretty-print (env->list new-env)) 
+	  (let ((r arg))
+	    (let ((new-env (extend-env var r saved-env)))
+	      (if (instrument-let)
+		(begin
+		  (eopl:printf
+		    "entering body of proc ~s with env =~%"
+		    var)
+		  (pretty-print (env->list new-env))
                   (eopl:printf "store =~%")
                   (pretty-print (store->readable (get-store-as-list)))
                   (eopl:printf "~%")))
-              (value-of body new-env)))))))  
+              (value-of body new-env)))))))
+
 
   ;; store->readable : Listof(List(Ref,Expval)) 
   ;;                    -> Listof(List(Ref,Something-Readable))
@@ -142,38 +147,26 @@
     (lambda (l)
       (map
         (lambda (p)
-          (list
+          (cons
             (car p)
             (expval->printable (cadr p))))
         l)))
   
-  (define applly-foreach
+    (define applly-foreach
     (lambda (x first rest body env)
-                 ((let ((tmpVal (deref (apply-env env first)))) ; extruct the exp-val of the first item and keep it in tmpval
-                   (let ((new-env (extend-env x (newref tmpVal) env)));makes a new ref to a store location holding a copy value of first              
-                (begin
+             (if (null? rest)
+              (num-val 23)
+              ((letrec ((tmp (deref (expval->ref (value-of first env)))) ; extruct the exp-val of the first item and keep it in tmp
+                        (ref1 (expval->ref (value-of first env))) ; save the refrance for later
+                        (tempref (ref-val (newref tmp)))) ; makes a new ref at store
+                 (begin
                    ;add the new temp value to the env and aply the action on it
                    ; caculate the body when x is now a ref to the value the store location with a copy exp of first
                    ; set first to the new value
-                  (value-of body new-env)
-                  (display "\n")
-                  (display   (deref (apply-env new-env x)))
-                  (display "\n")                  
-                  (setref!
-                   (apply-env new-env first)
-                   (deref (apply-env new-env x)))
-                  ( if (pair? rest)
-                       (value-of x (extend-env x (newref (num-val 23)) (applly-foreach x (car rest) (cdr rest) body new-env)))                       
-                       ((display "\n")
-                        (display   new-env)
-                        (display "\n") 
-                        (value-of body (extend-env x (newref (num-val 23)) new-env))))))))))
-      
-      
-  
-  
-
-
+                  (setref! ref1 (deref (expval->ref (value-of x (extend-env x tempref env)))))
+                  (applly-foreach x (car rest) (cdr rest) body) env))
+                 ))))
+ 
   )
   
 

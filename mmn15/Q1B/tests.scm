@@ -6,7 +6,6 @@
   (define test-list
     '(
       
-      
       (assignment-test "let a=3 
                          in let b=4
                            in let c=5 
@@ -141,7 +140,7 @@ let f = proc (x) proc (y)
                    -(x,y)
                   end
 in ((f 44) 33)"
-	12)|#
+	12) |#
       
       ))
   )
