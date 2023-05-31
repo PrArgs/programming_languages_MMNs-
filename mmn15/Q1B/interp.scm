@@ -101,10 +101,9 @@
             (num-val 27)))
         
         (foreach-exp (id1 ids1 ids body)
-                     (letrec (( dumdum (du 3))
-                              (dummy (applly-foreach id1 ids1 ids body env)))
-                     (display "\n we are here 2 \n"))
-                     (num-val 23))
+                     (begin 
+                       (map (lambda (fst) (applly-foreach-map id1 fst body env)) (cons ids1 ids))
+                     (num-val 23)))
 
         )))
 
@@ -149,6 +148,9 @@
             (expval->printable (cadr p))))
         l)))
   
+  
+  
+  
   (define applly-foreach
     (lambda (x first rest body env)
                  ((let ((tmpVal (deref (apply-env env first)))) ; extruct the exp-val of the first item and keep it in tmpval
@@ -170,6 +172,22 @@
                   (display   (deref (apply-env new-env x)))
                   (display "\n") 
                         (new-env)))))))))
+  
+  (define applly-foreach-map
+    (lambda (x first body env)
+                 (letrec ((tmpVal (deref (apply-env env first))) ; extruct the exp-val of the first item and keep it in tmpval
+                          (new-env (extend-env x (newref tmpVal) env)));makes a new ref to a store location holding a copy value of first              
+                   (begin
+                   ;add the new temp value to the env and aply the action on it
+                   ; caculate the body when x is now a ref to the value the store location with a copy exp of first
+                   ; set first to the new value 
+                   (value-of body new-env)                 
+                   (setref!
+                    (apply-env env first)
+                    (deref (apply-env new-env x)
+                          ))))))
+  
+  
       
       
       
