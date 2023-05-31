@@ -19,6 +19,9 @@
       (proc proc?))
     (ref-val
       (ref reference?))
+    (arr-val
+      (arr arr?))
+
     )
 
 ;;; extractors:
@@ -34,7 +37,7 @@
       (cases expval v
 	(bool-val (bool) bool)
 	(else (expval-extractor-error 'bool v)))))
-
+  
   (define expval->proc
     (lambda (v)
       (cases expval v
@@ -51,6 +54,12 @@
     (lambda (variant value)
       (eopl:error 'expval-extractors "Looking for a ~s, found ~s"
 	variant value)))
+;;;;;;;;;;;;;;;;extractors Arry ;;;;;;;;;;;;;;;;  
+  (define expval->arr
+    (lambda (v)
+      (cases expval v
+	(arr-val (arr) arr)
+	(else (expval-extractor-error 'arr v)))))
 
 ;;;;;;;;;;;;;;;; procedures ;;;;;;;;;;;;;;;;
 
@@ -59,6 +68,14 @@
       (bvar symbol?)
       (body expression?)
       (env environment?)))
+
+;;;;;;;;;;;;;;;; MMN15Arry ;;;;;;;;;;;;;;;;
+
+  (define-datatype arr arr?
+    (array
+      (typ type?)
+      (lengthA integer?)
+      (arry (list-of reference?))))
   
   (define-datatype environment environment?
     (empty-env)

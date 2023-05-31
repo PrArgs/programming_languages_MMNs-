@@ -71,6 +71,28 @@
       (expression
         ("setref" "(" expression "," expression ")")
         setref-exp)
+      
+      ;;;;;;;MMN15;;;;;;;
+      (expression
+        (type "["expression "]" "{" expression (arbno "," expression)"}")
+        arr-exp)
+      
+      (expression
+        ("[" identifier "," expression "]")
+        index-exp)
+      
+      (type
+         ("#")
+        type-num)
+      
+      (type
+         ("?")
+        type-bool)
+      
+      (type
+        ("@")
+        type-proc)
+      
 
       ))
 

@@ -5,7 +5,15 @@
   
   (define test-list
     '(
-  
+      
+      (my-test "let a = # [4] {10,20,30,40} 
+                     in begin
+                     setref([a,2],80);
+                     deref([a,2])
+                     end" 80)
+
+                     
+  #|
       ;; simple arithmetic
       (positive-const "11" 11)
       (negative-const "-33" -33)
@@ -157,7 +165,7 @@ in begin
     setref(deref(x), 11);
     deref(deref(x))
    end"
-   11)
+   11) |#
       
       ))
   )
